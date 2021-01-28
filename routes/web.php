@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Auth\LoginController@showLoginForm');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('admin-dashboard', 'AdminDashboardController@index')->name('admin_dashboard');
+});
