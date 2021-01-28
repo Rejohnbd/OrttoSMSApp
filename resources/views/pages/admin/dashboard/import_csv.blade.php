@@ -19,19 +19,19 @@
                     <h3 class="card-title">Create Device Type</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('csv_upload') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label mt-0">Select CSV File For</label>
-                                    <select name="status" class="form-control @error('status') is-invalid @enderror select2 custom-select" data-placeholder="Choose one" required>
+                                    <select name="csv_file_type" class="form-control @error('csv_file_type') is-invalid @enderror select2 custom-select" data-placeholder="Choose one">
                                         <option label="Choose one"></option>
                                         <option value="1">Divisions CSV File</option>
                                         <option value="2">Districts CSV File</option>
                                         <option value="3">Others CSV File</option>
                                     </select>
-                                    @error('status')
+                                    @error('csv_file_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -42,9 +42,14 @@
                                 <div class="form-group">
                                     <div class="form-label">Upload CSV File</div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="example-file-input-custom">
+                                        <input type="file" class="custom-file-input" name="file_name">
                                         <label class="custom-file-label">Choose file</label>
                                     </div>
+                                    @error('file_name')
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
