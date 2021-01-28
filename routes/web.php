@@ -20,4 +20,5 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin-dashboard', 'AdminDashboardController@index')->name('admin_dashboard');
+    Route::get('import_csv', 'AdminDashboardController@importCsv')->name('import_csv');
 });
