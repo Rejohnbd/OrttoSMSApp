@@ -25,7 +25,7 @@ class CsvUploadRequest extends FormRequest
     {
         return [
             'csv_file_type' => 'required|in:1,2,3',
-            'file_name'     => 'required|mimes:csv'
+            'file_name'     => 'required|mimes:csv,txt'
         ];
     }
 

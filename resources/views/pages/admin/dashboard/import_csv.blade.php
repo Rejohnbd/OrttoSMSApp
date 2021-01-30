@@ -25,7 +25,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label mt-0">Select CSV File For</label>
-                                    <select name="csv_file_type" class="form-control @error('csv_file_type') is-invalid @enderror select2 custom-select" data-placeholder="Choose one">
+                                    <select name="csv_file_type" class="form-control @error('csv_file_type') is-invalid @enderror select2 custom-select" data-placeholder="Choose one" required>
                                         <option label="Choose one"></option>
                                         <option value="1">Divisions CSV File</option>
                                         <option value="2">Districts CSV File</option>
@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <div class="form-label">Upload CSV File</div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="file_name">
+                                        <input type="file" class="custom-file-input" name="file_name" required>
                                         <label class="custom-file-label">Choose file</label>
                                     </div>
                                     @error('file_name')
@@ -65,4 +65,34 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('plugins/sweet-alert/sweetalert.css') }}" />
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+@if(session('success'))
+<script>
+    $(document).ready(function() {
+        Swal.fire('Congratulations!', "{{ session('success') }}", 'success');
+    });
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    $(document).ready(function() {
+        Swal.fire({
+            title: "Alert",
+            text: "{{ session('error') }}",
+            icon: "error",
+            showCancelButton: true,
+            confirmButtonText: 'Exit',
+            cancelButtonText: 'Stay on the page'
+        });
+    });
+</script>
+@endif
 @endsection

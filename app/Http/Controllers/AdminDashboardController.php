@@ -19,6 +19,13 @@ class AdminDashboardController extends Controller
 
     public function csvUpload(CsvUploadRequest $request)
     {
-        dd($request->all());
+        $file_extension = $request->file_name->getClientOriginalExtension();
+        if ($file_extension == 'csv') {
+            dd('CSV Extension');
+        } else {
+            session()->flash('error', 'Please Provide valid CSV file');
+            return redirect()->route('csv_import');
+        }
+        dd($request->file_name->getClientOriginalExtension());
     }
 }
