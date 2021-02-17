@@ -90,7 +90,7 @@ class AdminDashboardController extends Controller
 
         foreach ($importData_arr as $importData) {
             Division::create([
-                'division' => $importData[0]
+                'division' => utf8_encode($importData[0])
             ]);
         }
         $unlinkLink = public_path('uploads/' . $fileName);
@@ -127,7 +127,7 @@ class AdminDashboardController extends Controller
         foreach ($importData_arr as $importData) {
             District::create([
                 'division_id' => $importData[0],
-                'district' => $importData[1]
+                'district' => utf8_encode($importData[1])
             ]);
         }
         $unlinkLink = public_path('uploads/' . $fileName);
@@ -161,32 +161,14 @@ class AdminDashboardController extends Controller
         }
         fclose($uploadFile);
 
-        // $x = 0;
         foreach ($importData_arr as $importData) {
-            // $x++;
-
-            DB::table('upazilas')->insert([
+            Upazila::create([
                 'division_id' => $importData[0],
                 'district_id' => $importData[1],
                 'upazila_name' => utf8_encode($importData[2])
             ]);
-
-            // $newUpazila = new Upazila;
-
-            // $newUpazila->division_id = $importData[0];
-            // $newUpazila->district_id = $importData[1];
-            // $newUpazila->upazila_name = $importData[2];
-
-            // $newUpazila->save();
-
-            // Upazila::create([
-            //     'division_id' => $importData[0],
-            //     'district_id' => $importData[1],
-            //     'upazila_name' => $importData[2]
-            // ]);
         }
-        // dd($x);
-        // dd($importData_arr);
+
         $unlinkLink = public_path('uploads/' . $fileName);
         unlink($unlinkLink);
     }
