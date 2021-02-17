@@ -24,7 +24,7 @@ class CsvUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'csv_file_type' => 'required|in:1,2,3,4,5',
+            'csv_file_type' => 'required|in:1,2,3,4,5,6',
             'file_name'     => 'required|mimes:csv,txt'
         ];
     }

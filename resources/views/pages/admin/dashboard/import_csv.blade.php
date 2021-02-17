@@ -31,7 +31,8 @@
                                         <option value="2">Districts CSV File</option>
                                         <option value="3">Upazila CSV File</option>
                                         <option value="4">Union CSV File</option>
-                                        <option value="5">Others CSV File</option>
+                                        <option value="5">Thana CSV File</option>
+                                        <option value="6">Others CSV File</option>
                                     </select>
                                     @error('csv_file_type')
                                     <span class="invalid-feedback" role="alert">

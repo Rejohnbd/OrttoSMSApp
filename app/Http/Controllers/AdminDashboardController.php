@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CsvUpload\CsvUploadRequest;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\PoliceStation;
 use App\Models\Union;
 use App\Models\Upazila;
 use Illuminate\Http\Request;
@@ -50,6 +51,10 @@ class AdminDashboardController extends Controller
                 session()->flash('success', 'Union List Uploaded Successfully');
                 return redirect()->route('csv_import');
             } else if ($request->csv_file_type == 5) {
+                $this->policeStationCsvUpload($request);
+                session()->flash('success', 'Police Station Uploaded Successfully');
+                return redirect()->route('csv_import');
+            } else if ($request->csv_file_type == 6) {
                 // 
             } else {
                 session()->flash('error', 'Please Provide valid CSV file');
@@ -206,6 +211,44 @@ class AdminDashboardController extends Controller
                 'district_id' => $importData[1],
                 'upazila_id' => $importData[2],
                 'union_name' => utf8_encode($importData[3])
+            ]);
+        }
+        $unlinkLink = public_path('uploads/' . $fileName);
+        unlink($unlinkLink);
+    }
+
+    public function policeStationCsvUpload(Request $request)
+    {
+        $currentDate = date('Y_m_d_H_i');
+        $orginalName =  preg_replace("/\s+/", "_", $request->file('file_name')->getClientOriginalName());
+        $fileName = $currentDate . '_' . $orginalName;
+        $file = $request->file('file_name');
+        $location = 'uploads';
+        $file->move($location . '/', $fileName);
+        $filepath = public_path($location . "/" . $fileName);
+        $uploadFile = fopen($filepath, "r");
+
+        $importData_arr = array();
+        $i = 0;
+        while (($filedata = fgetcsv($uploadFile)) !== false) {
+            $num = count($filedata);
+            // Skip first row 
+            if ($i == 0) {
+                $i++;
+                continue;
+            }
+            for ($c = 0; $c < $num; $c++) {
+                $importData_arr[$i][] = $filedata[$c];
+            }
+            $i++;
+        }
+        fclose($uploadFile);
+
+        foreach ($importData_arr as $importData) {
+            PoliceStation::create([
+                'division_id' => $importData[0],
+                'district_id' => $importData[1],
+                'police_station_name' => utf8_encode($importData[2])
             ]);
         }
         $unlinkLink = public_path('uploads/' . $fileName);
